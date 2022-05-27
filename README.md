@@ -1,38 +1,18 @@
-Name - Inayat Kaur
-Entry no. - 2020csb1088
-Course - CS202 (Programming Paradigms and Pragmatics)
-Lab2 - Tic-Tac-Toe using OOP in java
+# TicTacToe  
 
+* Compile the source files using:  
+  javac TicTacToe.java  
+  javac Game.java  
+  javac Player.java  
+  javac Computer.java  
+  javac Display.java  
 
+* Run the program using: java TicTacToe  
 
-The project contains the following class files and source files:
-1. TicTacToe.java
-2. TicTacToe.java
-3. Game.java
-4. Game.class
-5. Player.java
-6. Player.class
-7. Computer.java
-8. Computer.class
-9. Display.java
-10. Display.class
+* Enter 1 for Computer vs Player and 2 for Player vs Player  
 
-
-
-
-* Compile the source files using:
-  javac TicTacToe.java
-  javac Game.java
-  javac Player.java
-  javac Computer.java
-  javac Display.java
-
-* Run the program using: java TicTacToe
-
-* Enter 1 for Computer vs Player and 2 for Player vs Player
-
-* If you entered 1, You will be Player1 with 'X' mark and first turn.
-  Computer will be Player2 with 'O' mark.
+* If you entered 1, You will be Player1 with 'X' mark and first turn.  
+  Computer will be Player2 with 'O' mark.  
   Enter your choice from the available options.
   After that computer will make its choice.
   The game ends when either of Player1 or Player2 wins or there is a draw.
