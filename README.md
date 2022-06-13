@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #TicTacToe
 
 
@@ -14,6 +15,23 @@
 
 * If you entered 1, You will be Player1 with 'X' mark and first turn.
   Computer will be Player2 with 'O' mark.
+=======
+# TicTacToe  
+
+* Compile the source files using:  
+  javac TicTacToe.java  
+  javac Game.java  
+  javac Player.java  
+  javac Computer.java  
+  javac Display.java  
+
+* Run the program using: java TicTacToe  
+
+* Enter 1 for Computer vs Player and 2 for Player vs Player  
+
+* If you entered 1, You will be Player1 with 'X' mark and first turn.  
+  Computer will be Player2 with 'O' mark.  
+>>>>>>> 9e2018a6ce15b91203222f68845a5902ae14cc39
   Enter your choice from the available options.
   After that computer will make its choice.
   The game ends when either of Player1 or Player2 wins or there is a draw.
