@@ -1,4 +1,4 @@
-//Inayat Kaur
+//Inayat Kaur 
 //2020csb1088
 
 import java.util.Vector;
@@ -74,7 +74,7 @@ public class Game{
 	}
 	
 	/**Checking if some player has won or there is a draw**/
-	private char checkWinStatus(){
+	public char checkWinStatus(){
 		if(options.isEmpty())return 'D';
 		char m;
 		m = matrix[0][0];

@@ -1,7 +1,7 @@
 //Inayat Kaur
 //2020csb1088
-
-import java.util.Random;
+ 
+import java.util.Vector;
 
 /**It imitates a Computer player. For making a move, it first check if there are two consecutive 'O's or two consecutive 'X's so as to decide if it will win or lose in the next turn. In case it doesn't find any good move, it will make a random move.**/
 
@@ -11,118 +11,123 @@ public class Computer extends Player{
 	public Computer(char mark, int number){ //Constructor
 		super(mark , number);
 	}
-	
-	/**Makes move by checking initially if it will win in next move due to consecutive 'O's or it will lose in next move due to consecutive 'X's. If it is not the case then it will move randomly**/
-	public void makeMove(Game game){		
-		int choice;
-		if(checkIfWinning(game)!=-1) choice = checkIfWinning(game);
-		else if(checkIfLosing(game)!=-1) choice = checkIfLosing(game);
-		else{
-			Random rand = new Random();
-			choice = game.getOptions().elementAt(rand.nextInt(game.getOptions().size()));
+
+	/**It performs the best move based on minimax algorithm where 'X' is the maximizing player.**/
+	public void makeMove(Game game){
+		int choice=0,val,minimax;
+		Vector<Integer> choices = new Vector<Integer>(game.getOptions());
+
+		if(mark=='X'){
+			val = Integer.MIN_VALUE;
+			for(int i=0;i<choices.size();i++){
+				minimax=miniMax(game,choices,i,0,Integer.MIN_VALUE,Integer.MAX_VALUE,true);
+				if(minimax>val){
+					val = minimax;
+					choice = choices.elementAt(i);
+				}
+			}
 		}
+		else{
+			val = Integer.MAX_VALUE;
+			for(int i=0;i<choices.size();i++){
+				minimax=miniMax(game,choices,i,0,Integer.MIN_VALUE,Integer.MAX_VALUE,false);
+				if(minimax<val){
+					val = minimax;
+					choice = choices.elementAt(i);
+				}
+			}
+		} 
 		game.makeMove(choice,mark);
 	}
-	
-	/**Check if there are 2 'O's and an empty cell**/
-	private int checkIfWinning(Game game){
-		char[][] matrix = new char[3][3];
-		matrix[0][0] = (game.getMatrix())[0][0];
-		matrix[0][1] = (game.getMatrix())[0][1];
-		matrix[0][2] = (game.getMatrix())[0][2];
-		matrix[1][0] = (game.getMatrix())[1][0];
-		matrix[1][1] = (game.getMatrix())[1][1];
-		matrix[1][2] = (game.getMatrix())[1][2];
-		matrix[2][0] = (game.getMatrix())[2][0];
-		matrix[2][1] = (game.getMatrix())[2][1];
-		matrix[2][2] = (game.getMatrix())[2][2];
-		char m;
-		for(int i=0;i<game.getOptions().size();i++){
-			m = checkIfMoveWorks(game.getOptions().elementAt(i),matrix,'O');
-			if(m=='O') return game.getOptions().elementAt(i);
-		}
-		return -1;
-	}
-	
-	/**Check if there are 2 'X's and an empty cell**/
-	private int checkIfLosing(Game game){
-		char[][] matrix = new char[3][3];
-		matrix[0][0] = (game.getMatrix())[0][0];
-		matrix[0][1] = (game.getMatrix())[0][1];
-		matrix[0][2] = (game.getMatrix())[0][2];
-		matrix[1][0] = (game.getMatrix())[1][0];
-		matrix[1][1] = (game.getMatrix())[1][1];
-		matrix[1][2] = (game.getMatrix())[1][2];
-		matrix[2][0] = (game.getMatrix())[2][0];
-		matrix[2][1] = (game.getMatrix())[2][1];
-		matrix[2][2] = (game.getMatrix())[2][2];
-		char m;
-		for(int i=0;i<game.getOptions().size();i++){
-			m = checkIfMoveWorks(game.getOptions().elementAt(i),matrix,'X');
-			if(m=='X') return game.getOptions().elementAt(i);
-		}
-		return -1;
-	}
-	
-	/**Check if the given move either makes the Computer win or lose **/
-	private char checkIfMoveWorks(int i,char[][] matrix, char mark){
-		switch(i){
-			case 1: matrix[0][0] = mark;
-			break;
-			case 2: matrix[0][1] = mark;
-			break;
-			case 3: matrix[0][2] = mark;
-			break;
-			case 4: matrix[1][0] = mark;
-			break;
-			case 5: matrix[1][1] = mark;
-			break;
-			case 6: matrix[1][2] = mark;
-			break;
-			case 7: matrix[2][0] = mark;
-			break;
-			case 8: matrix[2][1] = mark;
-			break;
-			case 9: matrix[2][2] = mark;
-			break;			
-		}
-		char m;
-		m = matrix[0][0];
-		if(matrix[1][0]==m&&matrix[2][0]==m)return m;
-		else if(matrix[1][1]==m&&matrix[2][2]==m) return m;
-		else if(matrix[0][1]==m&&matrix[0][2]==m) return m;
-		m = matrix[0][1];
-		if(matrix[1][1]==m&&matrix[2][1]==m)return m;
-		m = matrix[0][2];
-		if(matrix[1][2]==m&&matrix[2][2]==m)return m;
-		else if(matrix[1][1]==m&&matrix[2][0]==m)return m;
-		m = matrix[1][0];
-		if(matrix[1][1]==m&&matrix[1][2]==m)return m;
-		m = matrix[2][0];
-		if(matrix[2][1]==m&&matrix[2][2]==m)return m;
-		else{
-		/**In case the move won't work, revert the copy of matrix to original state**/
-			switch(i){
-				case 1: matrix[0][0] = '1';
-				break;
-				case 2: matrix[0][1] = '2';
-				break;
-				case 3: matrix[0][2] = '3';
-				break;
-				case 4: matrix[1][0] = '4';
-				break;
-				case 5: matrix[1][1] = '5';
-				break;
-				case 6: matrix[1][2] = '6';
-				break;
-				case 7: matrix[2][0] = '7';
-				break;
-				case 8: matrix[2][1] = '8';
-				break;
-				case 9: matrix[2][2] = '9';
-				break;			
+
+	/**Implementation of the recursive minimax function with alpha beta pruning**/
+	private int miniMax(Game game,Vector<Integer> choices, int choice, int depth, int alpha, int beta, boolean maximizingPlayer){
+		int temp=choices.elementAt(choice);
+		choices.remove(choice);
+		if(maximizingPlayer){
+			updateMatrix(temp,game.getMatrix(),'X');
+			char status = game.checkWinStatus();
+			if(choices.isEmpty()&&status=='F'){
+				updateMatrix(temp,game.getMatrix(),temp);
+				choices.insertElementAt(temp,choice);
+				return evaluation('D',depth);
 			}
-		 	return 'F';
+			else if(status!='F'){
+				updateMatrix(temp,game.getMatrix(),temp);
+				choices.insertElementAt(temp,choice);
+				return evaluation(status,depth);
+			}
+
+			int maxEval = Integer.MIN_VALUE,eval;
+			for(int i=0;i<choices.size();i++){
+				eval = miniMax(game,choices,i, depth+1, alpha, beta, false);
+				maxEval = Math.max(maxEval, eval);
+				alpha = Math.max(alpha,eval);
+				if(beta<=alpha)break;
+			}
+			choices.insertElementAt(temp,choice);
+			updateMatrix(temp,game.getMatrix(),temp);
+			return maxEval;
+		}
+		else{
+			updateMatrix(temp,game.getMatrix(),'O');
+			char status = game.checkWinStatus();
+			if(choices.isEmpty()&&status=='F'){
+				choices.insertElementAt(temp,choice);
+				updateMatrix(temp,game.getMatrix(),temp);
+				return evaluation('D',depth);
+			}
+			else if(status!='F'){
+				choices.insertElementAt(temp,choice);
+				updateMatrix(temp,game.getMatrix(),temp);
+				return evaluation(status,depth);
+			}
+
+			int minEval = Integer.MAX_VALUE,eval;
+			for(int i=0;i<choices.size();i++){
+				eval = miniMax(game, choices,i, depth+1, alpha, beta, true);
+				minEval = Math.min(minEval, eval);
+				alpha = Math.min(alpha,eval);
+				if(beta<=alpha)break;
+			}
+			choices.insertElementAt(temp,choice);
+			updateMatrix(temp,game.getMatrix(),temp);
+			return minEval;
 		}
 	}
+
+	/**This function evaluates the points achieved on following a given path in minimax algorithm**/
+	private int evaluation(char outcome,int depth ){
+		if(outcome=='D') return 0;
+		else if (outcome =='X') return 10 - depth;
+		else return depth-10;
+	}
+	
+	/** Updates the Tic-Tac-Toe matrix. It is required to evaluate the end cases of minimax function.**/
+	private void updateMatrix(int position, char[][] matrix, int value){
+		char mark;
+		if(value>9) mark = (char)value;
+		else mark = (char)(value + (int)'0');
+		switch(position){
+			case 1: matrix[0][0] = mark;
+				break;
+			case 2: matrix[0][1] = mark;
+				break;
+			case 3: matrix[0][2] = mark;
+				break;
+			case 4: matrix[1][0] = mark;
+				break;
+			case 5: matrix[1][1] = mark;
+				break;
+			case 6: matrix[1][2] = mark;
+				break;
+			case 7: matrix[2][0] = mark;
+				break;
+			case 8: matrix[2][1] = mark;
+				break;
+			case 9: matrix[2][2] = mark;
+				break;
+		}
+	}
+
 }

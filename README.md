@@ -1,23 +1,4 @@
-Name - Inayat Kaur
-Entry no. - 2020csb1088
-Course - CS202 (Programming Paradigms and Pragmatics)
-Lab2 - Tic-Tac-Toe using OOP in java
-
-
-
-The project contains the following class files and source files:
-1. TicTacToe.java
-2. TicTacToe.java
-3. Game.java
-4. Game.class
-5. Player.java
-6. Player.class
-7. Computer.java
-8. Computer.class
-9. Display.java
-10. Display.class
-
-
+#TicTacToe
 
 
 * Compile the source files using:
@@ -51,18 +32,18 @@ The project contains the following class files and source files:
 	
 2. Game:
 	It imitates the board of the tic-tac-toe which also acts as a referee to check when a player wins the game.
-       It contains the following private variables:
-       * private char[][] matrix = new char[3][3]
-       * private Vector<Integer> options
-       * private char winStatus
+    It contains the following private variables:
+    * private char[][] matrix = new char[3][3]
+    * private Vector<Integer> options
+    * private char winStatus
 	
 	It contains the folowing methods:
-        * public Game()    //Constructor
-        * public char[][] getMatrix()
+    * public Game()    //Constructor
+    * public char[][] getMatrix()
 	* public Vector<Integer> getOptions()	
 	* public char getWinStatus()
 	* public void makeMove(int i, char mark)
-	* private char checkWinStatus()
+	* public char checkWinStatus()
 	
 
 3. Player:
@@ -76,17 +57,18 @@ The project contains the following class files and source files:
 	* public void makeMove(Game game)
 
 4. Computer:
-	It imitates a Computer player. For making a move, it first check if there are two consecutive 'O's or two consecutive 'X's so as to decide if it will win or lose in the next turn. In case it doesn't find any good move, it will make a random move.
+	It imitates a Computer player. For making a move, it uses the minimax algorithm where computer is
+	the minimizing player. It is optimized using alpha-beta pruning.
 	It inherits the following two variables from Player class:
 	* protected char mark
 	* protected int number
 	
 	It contains the following methods:
 	* public Computer(char mark, int number)     //Constructor
-	* public void makeMove(Game game)     //Ovrrrides makeMove() of Player class
-	* private int checkIfWinning(Game game)
-	* private int checkIfLosing(Game game)
-	* private char checkIfMoveWorks(int i,char[][] matrix, char mark)
+	* public void makeMove(Game game)     //Overrides makeMove() of Player class
+	* private int miniMax(Game game,Vector<Integer> choices, int choice, int depth, int alpha, int beta, boolean maximizingPlayer)
+	* private int evaluation(char outcome,int depth )
+	* private void updateMatrix(int position, char[][] matrix, int value)
 	
 
 5. Display:
@@ -101,10 +83,3 @@ The project contains the following class files and source files:
 	* public void winStatus(char w)
 	* public void nextMove(int p)
         All these methods are used to only display strings and do not make any modifications to the game.
-  
-
-
-
-
-
-
